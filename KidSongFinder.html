@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+// 
+<head>
+    <title>Ibrahim Kedir Songs</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            background-color: rgb(222, 114, 231);
+            font-size: 1.5em;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-gap: 1px;
+            width: 992px;
+            grid-template-columns: 220px 440px 330px;
+            background-color: rgb(125, 160, 177);
+            color: rgb(36, 35, 95);
+            border-radius: 2px;
+        }
+
+        .box {
+            background-color: rgb(159, 139, 179);
+            color: #000;
+            border-radius: 5px;
+            padding: 2px;
+            font-size: 1em;
+            border: solid black 1px;
+        }
+
+        .a {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .b {
+            grid-column: 2;
+            grid-row: 1 / span 3;
+        }
+
+        .c {
+            grid-column: 3;
+            grid-row: 1 / span 3;
+        }
+
+        .d {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .e {
+            grid-column: 1;
+            grid-row: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- "https://www.youtube.com/embed/fXFg5QsTcLQ"  -->
+    <h1> Ibrahim Kids Songs</h1>
+    <div class="wrapper">
+        <div class="box a">
+            <!-- select element options loaded dynamically -->
+            <select id="selectSong"> </select>
+        </div>
+        <div class="box b">
+            <iframe id="youtubeSong" width="420" height="315" src="https://www.youtube.com/embed/fXFg5QsTcLQ">
+            </iframe>
+        </div>
+        <div class="box c">
+            <iframe id="txtSong" width="315" height="315" src="http://www1.lasalle.edu/~blum/c230wks/Songs/muffin.txt">
+            </iframe>
+        </div>
+        <div class="box d">
+            <img id="imgSong" src="http://www1.lasalle.edu/~blum/c230wks/Songs/muffin.png" alt="" width="200" />
+        </div>
+        <div class="box e">Video length
+            <div id="lengthSong"></div>
+        </div>
+    </div>
+
+    <!-- 
+    •	Populate a drop-down select with titles.
+    •	Have a method to handle the select's change event. It should change the image, length, video, and lyrics.-->
+    
+    <script>
+
+
+        let myKidsSongs = []
+
+
+        function KidsSong(tite, len, imgs, ytb, lyr) {
+            this.Title = tite;
+            this.Length = len;
+            this.Image = imgs;
+            this.Youtube = ytb;
+            this.Lyric = lyr;
+        }
+
+        document.getElementById("selectSong").addEventListener("change", chooseSong);
+
+    
+     
+        let KidsSongData = "The Muffin Man|2:07|muffin.png|fXFg5QsTcLQ|muffin.txt#The Ants Go Marching|3:52|ants.png|2S__fbCGwOM|ants.txt#Twinkle Twinkle Little Star|2:33|twinkle.png|yCjJyiqpAuU|twinkle.txt#Old MacDonald Had A Farm|3:29|mcdonald.png|5oYKonYBujg|mcdonald.txt#Hickory Dickory Dock|3:01|hickory.png|HGgsklW-mtg|hickory.txt#The Farmer In The Dell|1:48|farmer.png|E-krsNziXEw|farmer.txt#Jack & Jill|1:46|jack.png|EFj0K38sPmA|jack.txt#Hot Cross Buns|1:43|hot.png|re3gXNTtwig|hot.txt";
+       
+    
+        let KidsSongDataLines = KidsSongData.split("#");
+
+        for (let i = 0; i < KidsSongDataLines.length; i++) {
+
+            let subdata = KidsSongDataLines[i].split("|");
+            myKidsSongs[i] = new KidsSong(...subdata);
+
+        }
+       
+        let mySelect = document.getElementById("selectSong");
+        myKidsSongs.forEach((el, i) => {
+            let myOption = document.createElement("option");
+            myOption.text = el.Title;
+            myOption.value = i;
+            mySelect.add(myOption, null);
+        });
+       
+        let event = new Event('change');
+        mySelect.dispatchEvent(event);
+
+       
+        function chooseSong() {
+            let myIndex = document.getElementById("selectSong").value;
+            document.getElementById("imgSong").src = "http://www1.lasalle.edu/~blum/c230wks/Songs/" + myKidsSongs[myIndex].Image;
+            document.getElementById("txtSong").src = "http://www1.lasalle.edu/~blum/c230wks/Songs/" + myKidsSongs[myIndex].Lyric;
+            document.getElementById("lengthSong").innerHTML = myKidsSongs[myIndex].Length;
+            document.getElementById("youtubeSong").src = "https://www.youtube.com/embed/" + myKidsSongs[myIndex].Youtube;
+
+        }
+    </script>
+</body>
+
+</html>
